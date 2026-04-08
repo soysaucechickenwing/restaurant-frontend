@@ -2,10 +2,12 @@
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { cartStore } from '@/store/cartStore';
 
-export default function OrderConfirmationPage(){
+
+
+function OrderConfirmationContent(){
     const searchParams = useSearchParams();
     const orderId = searchParams.get('orderId');
 
@@ -29,4 +31,12 @@ export default function OrderConfirmationPage(){
         </div>
     );
 
+}
+
+export default function OrderConfirmationPage() {
+    return (
+    <Suspense fallback={<div className="text-center py-16">Loading...</div>}>
+      <OrderConfirmationContent />
+    </Suspense>
+  );
 }
