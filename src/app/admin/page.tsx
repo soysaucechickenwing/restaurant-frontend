@@ -45,7 +45,9 @@ export default function AdminPage(){
         fetchOrders();
     };
 
-    const handleDecline = async (id: number) => {
+    const handleDecline = async (id: number, orderNumber: string) => {
+        const confirmed = window.confirm(`确认取消订单 ${orderNumber}？\n此操作将自动退款给顾客，无法撤销。`);
+        if (!confirmed) return;
         await api.patch(`/api/orders/${id}/cancel`);
         fetchOrders();
     };
@@ -121,7 +123,7 @@ export default function AdminPage(){
                     {paidOrders.map(order => (
                         <OrderCard key={order.id} order={order}
                                    onAccept={() => handleAccept(order.id)}
-                                   onDecline={() => handleDecline(order.id)} />
+                                   onDecline={() => handleDecline(order.id, order.orderNumber)} />
                     ))}
                 </div>
 
